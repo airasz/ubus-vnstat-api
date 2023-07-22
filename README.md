@@ -1,5 +1,17 @@
 # UBUS VNSTAT NETDATA API
 ubus, vnstat, netdata api for OpenWrt Devices
+##  What Diferent
+### in this branch
+- added adblock for get DNS query data
+- simplified JSON respond in purpose to fit and easy parse for small buffer size device request like Esp8266
+- added parameter network=host - get all detected host
+- added parameter network=iface -  get list of interface and traffict count within
+- added parameter network=radio -  get list of wireless just appear on openwrt wireless 
+- added parameter dns=current  -  get list of last 50 DNS request (adblock installed required)
+- added parameter dns=domain - get list of top 10 DNS request  (adblock installed required)
+- added parameter dns=blocked - get list of last 10 DNS blocked  (adblock installed required)
+ 
+
 
 ## Feature
 
@@ -10,10 +22,11 @@ ubus, vnstat, netdata api for OpenWrt Devices
 - Get Realtime `UBUS SYSTEM` data JSON
 - Get latest Update `VNSTAT` data JSON
 - Get latest Update `NETDATA` data JSON
+- Get latest Update `DNS QUERY` data JSON
 
 ## Requirement
 
-- Installed package `php vnstat ubus netdata`
+- Installed package `php vnstat ubus netdata adblock`
 
 ## Installing API
 
@@ -21,7 +34,8 @@ ubus, vnstat, netdata api for OpenWrt Devices
 > 2. Download or Clone this repository
 > 3. Extract downloads file
 > 4. **Move** or **Copy** folder `api` to `/www/`
-> 5. API is ready to use
+> 5. Install adblock and enable DNS report 
+> 6. API is ready to use
 
 ## Example
 You can call multiple parameter.
