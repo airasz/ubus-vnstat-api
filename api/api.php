@@ -11,6 +11,7 @@ $bdata = false;
 $count = 0;
 $squery = "";
 if (isset($_GET["network"])) {
+if (isset($_GET["network"])) {
     $bdata = true;
     $dt = $_GET["network"];
     if ($dt === "device") {
@@ -37,14 +38,14 @@ if (isset($_GET["network"])) {
 
                 // echo $data[$key]['ipaddrs'][0].PHP_EOL;
                 // echo $data[$key]['name'].PHP_EOL;
-                if ($data[$key]['name'] != null) {
+                if ($data[$key]["name"] != null) {
                     $count++;
                     if ($count > 1) {
-                        echo ',';
+                        echo ",";
                     }
-                    echo '{';
-                    echo '"name":"' . $data[$key]['name'] . '",';
-                    echo '"ipv4":"' . $data[$key]['ipaddrs'][0] . '"}';
+                    echo "{";
+                    echo '"name":"' . $data[$key]["name"] . '",';
+                    echo '"ipv4":"' . $data[$key]["ipaddrs"][0] . '"}';
                 }
                 // echo '"encryption":"' . $data[$key][$keyb][$keyc]["config"]["encryption"] . '"}';
 
@@ -70,12 +71,10 @@ if (isset($_GET["network"])) {
             $data = json_decode($query, true);
             //echo "{";
             foreach ($data as $key => $value) {
-
-
                 $txb = $data[$key]["stats"]["tx_bytes"];
                 $rxb = $data[$key]["stats"]["rx_bytes"];
 
-                if ($txb !== 0 & $rxb !== 0) {
+                if (($txb !== 0) & ($rxb !== 0)) {
                     //only not zero traffict shown
                     $count++;
                     if ($count > 1) {
@@ -129,28 +128,35 @@ if (isset($_GET["network"])) {
                 foreach ($value as $keyb => $value2) {
                     // echo $keyb . ' ';
                     if ($keyb === "interfaces") {
-
                         foreach ($value2 as $keyc => $value3) {
                             $count++;
                             // echo '_' . $keyc;
                             // echo '_' . [$data][$key][$keyb][$keyc];
                             if ($count > 1) {
-                                echo ',';
+                                echo ",";
                             }
-                            echo '{';
-                            echo '"ssid":"' . $data[$key][$keyb][$keyc]["config"]["ssid"] . '",';
+                            echo "{";
+                            echo '"ssid":"' .
+                                $data[$key][$keyb][$keyc]["config"]["ssid"] .
+                                '",';
                             //echo '"key":"' . $data[$key][$keyb][$keyc]["config"]["key"] . '",'; // show bare key
                             $pass = $data[$key][$keyb][$keyc]["config"]["key"];
 
                             //    $pass='air46664';
 
                             for ($i = 0; $i < strlen($pass) - 3; $i++) {
-                                $pass[$i] = '*';
+                                $pass[$i] = "*";
                             }
 
-                            echo '"key":"' . $pass . '",'; // show half sensored key 
-                            echo '"mode":"' . $data[$key][$keyb][$keyc]["config"]["mode"] . '",';
-                            echo '"encryption":"' . $data[$key][$keyb][$keyc]["config"]["encryption"] . '"}';
+                            echo '"key":"' . $pass . '",'; // show half sensored key
+                            echo '"mode":"' .
+                                $data[$key][$keyb][$keyc]["config"]["mode"] .
+                                '",';
+                            echo '"encryption":"' .
+                                $data[$key][$keyb][$keyc]["config"][
+                                    "encryption"
+                                ] .
+                                '"}';
                         }
                     }
                     // $wencript = $data[$keyb]["interfaces"][0]["encryption"];
@@ -213,7 +219,7 @@ if (isset($_GET["dns"])) {
         echo '"system":{"status": true, "data":[';
         // shell_exec("/etc/init.d/adblock $dt gen");
         // sleep(3);
-        $query = shell_exec("/etc/init.d/adblock $dt json");
+        $query = shell_exec("/etc/init.d/adblock report json");
         if (empty($query)) {
             echo '], "error":"query error. Check if ubus is installed on your system."},';
         } else {
@@ -221,17 +227,16 @@ if (isset($_GET["dns"])) {
             //echo "{";
             foreach ($data as $key => $value) {
                 if ($key === "requests") {
-
                     foreach ($value as $keyb => $value2) {
                         // echo $keyb.': ';
                         $count++;
                         if ($count > 1) {
-                            echo ',';
+                            echo ",";
                         }
-                        echo '{';
-                        echo '"client":"' . $data[$key][$keyb]['client'] . '"';
-                        echo ',';
-                        echo '"domain":"' . $data[$key][$keyb]['domain'] . '"}';
+                        echo "{";
+                        echo '"client":"' . $data[$key][$keyb]["client"] . '"';
+                        echo ",";
+                        echo '"domain":"' . $data[$key][$keyb]["domain"] . '"}';
                     }
                 }
             }
@@ -249,17 +254,18 @@ if (isset($_GET["dns"])) {
             //echo "{";
             foreach ($data as $key => $value) {
                 if ($key === "top_domains") {
-
                     foreach ($value as $keyb => $value2) {
                         // echo $keyb.': ';
                         $count++;
                         if ($count > 1) {
-                            echo ',';
+                            echo ",";
                         }
-                        echo '{';
-                        echo '"count":"' . $data[$key][$keyb]['count'] . '"';
-                        echo ',';
-                        echo '"address":"' . $data[$key][$keyb]['address'] . '"}';
+                        echo "{";
+                        echo '"count":"' . $data[$key][$keyb]["count"] . '"';
+                        echo ",";
+                        echo '"address":"' .
+                            $data[$key][$keyb]["address"] .
+                            '"}';
                     }
                 }
             }
@@ -277,17 +283,18 @@ if (isset($_GET["dns"])) {
             //echo "{";
             foreach ($data as $key => $value) {
                 if ($key === "top_blocked") {
-
                     foreach ($value as $keyb => $value2) {
                         // echo $keyb.': ';
                         $count++;
                         if ($count > 1) {
-                            echo ',';
+                            echo ",";
                         }
-                        echo '{';
-                        echo '"count":"' . $data[$key][$keyb]['count'] . '"';
-                        echo ',';
-                        echo '"address":"' . $data[$key][$keyb]['address'] . '"}';
+                        echo "{";
+                        echo '"count":"' . $data[$key][$keyb]["count"] . '"';
+                        echo ",";
+                        echo '"address":"' .
+                            $data[$key][$keyb]["address"] .
+                            '"}';
                     }
                 }
             }
@@ -305,22 +312,76 @@ if (isset($_GET["vnstat"])) {
         echo ",";
     }
     $bdata = true;
-    echo '"vnstat":{"status": true, "data":[';
-    $query = shell_exec("vnstat --json -i $dt");
-    if (empty($query)) {
-        echo '], "error":"interface not found. Check if vnstat is installed on your system."}';
-    } else {
-        $squery = $query;
-        if (strpos($squery, "Error") !== false) {
-            echo str_replace(
-                "toreplace",
-                $dt,
-                '"Error: Unable to read database \"/var/lib/vnstat/toreplace\": No such file or directory"'
-            );
+    if ($dt === "full") {
+        echo '"vnstat":{"status": true, "data":[';
+        // $query = shell_exec("vnstat --json -i $dt");
+        $query = shell_exec("vnstat --json -i eth0");
+        if (empty($query)) {
+            echo '], "error":"interface not found. Check if vnstat is installed on your system."}';
         } else {
-            echo $query;
+            $squery = $query;
+            if (strpos($squery, "Error") !== false) {
+                echo str_replace(
+                    "toreplace",
+                    $dt,
+                    '"Error: Unable to read database \"/var/lib/vnstat/toreplace\": No such file or directory"'
+                );
+            } else {
+                echo $query;
+            }
+            echo '], "error": null}';
         }
-        echo '], "error": null}';
+    } elseif ($dt === "lite") {
+        echo '"vnstat":{"status": true, "data":[';
+        $query = shell_exec("vnstat --json -i eth0");
+        if (empty($query)) {
+            echo '], "error":"interface not found. Check if vnstat is installed on your system."}';
+        } else {
+            $squery = $query;
+            if (strpos($squery, "Error") !== false) {
+                echo str_replace(
+                    "toreplace",
+                    $dt,
+                    '"Error: Unable to read database \"/var/lib/vnstat/toreplace\": No such file or directory"'
+                );
+            } else {
+                $data = json_decode($query, true);
+                $count = 0;
+                $ifaces = $data["interfaces"][0];
+                $days = $data["interfaces"][0]["traffic"]["days"];
+                $hours = $data["interfaces"][0]["traffic"]["hours"];
+                $arr_index = [];
+
+                foreach ($days as $key) {
+                    $count++;
+                    if ($count > 0) {
+                        unset(
+                            $data["interfaces"][0]["traffic"]["days"][$count]
+                            );
+                    }
+                } //end for
+                $count = 0;
+                foreach ($hours as $key) {
+                    $count++;
+                    if ($count > 0) {
+                        unset(
+                            $data["interfaces"][0]["traffic"]["hours"][$count]
+                            );
+                    }
+                }
+                foreach ($data["interfaces"][0]["traffic"]["tops"] as $key) {
+                    $count++;
+                    if ($count > 0) {
+                        unset(
+                            $data["interfaces"][0]["traffic"]["tops"][$count]
+                            );
+                    }
+                }
+                $rjson = json_encode($data);
+                echo $rjson;
+                echo '], "error": null}';
+            }
+        }
     }
 } else {
     // echo '"vnstat":{"status": false, "data":[ ], "error":"no data"},';
@@ -393,5 +454,11 @@ function netdataParse($param, $cond)
 function secondsToDHMS($seconds)
 {
     $s = (int) $seconds;
-    return sprintf('%dd:%02dh:%02dm:%02ds', $s / 86400, $s / 3600 % 24, $s / 60 % 60, $s % 60);
+    return sprintf(
+        "%dd:%02dh:%02dm:%02ds",
+        $s / 86400,
+        ($s / 3600) % 24,
+        ($s / 60) % 60,
+        $s % 60
+    );
 }
