@@ -10,7 +10,7 @@ $cnt = 0;
 $bdata = false;
 $count = 0;
 $squery = "";
-if (isset($_GET["network"])) {
+// if (isset($_GET["network"])) {
 if (isset($_GET["network"])) {
     $bdata = true;
     $dt = $_GET["network"];
