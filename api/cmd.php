@@ -29,6 +29,10 @@ if (isset($_GET["zerotier"])) {
                 $query = shell_exec("uci get zerotier.sample_config.enabled ");
                 echo "cmd executed\n";
                 echo "result: " . $query;
+        } elseif ($dt === "status") {
+                $query = shell_exec("uci get zerotier.sample_config.enabled ");
+                echo "cmd executed\n";
+                echo "result: " . $query;
         } else {
                 echo "command unknow";
         }
